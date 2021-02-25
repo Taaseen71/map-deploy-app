@@ -6,6 +6,21 @@ import mapboxgl from 'mapbox-gl';
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
+
+//! Install "worker-loader" to deps if you using CRA and add the following to the start of your code
+
+//! Just making it super concrete for future create-react-users that come across this, a non-eject production build solution is to import mapboxgl like this:
+
+//! import 'mapbox-gl/dist/mapbox-gl.css';
+//! import mapboxgl from 'mapbox-gl';
+
+//! // @ts-ignore
+//! // eslint-disable-next-line import/no-webpack-loader-syntax
+//! mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
+
+
+
 function ReactMap() {
 
     const [viewport, setViewport] = useState({
