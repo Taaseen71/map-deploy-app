@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import ReactMapGL from "react-map-gl";
-
+import ReactMapGL, { Marker } from "react-map-gl";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 function ReactMap() {
@@ -19,8 +19,9 @@ function ReactMap() {
                 {...viewport}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                 onViewportChange={(viewport) => { setViewport(viewport) }}
+                mapStyle="mapbox://styles/taaseen71/ckleb8llf0zv817lk5y1asq7s"
             >
-                Hello
+                {/* {importJsonhere} */}
             </ReactMapGL>
         </div>
     )
