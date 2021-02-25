@@ -5,6 +5,9 @@ import ReactMap from './components/ReactMap';
 function App() {
     return (
         <div className="App">
+            <header>
+                Header
+            </header>
             <ReactMap />
         </div>
     );

@@ -14,9 +14,13 @@ function ReactMap() {
     })
 
     return (
-        <div>
-            <ReactMapGL {...viewport}>
-
+        <div style={{ display: "flex", justifyContent: "center" }}>
+            <ReactMapGL
+                {...viewport}
+                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+                onViewportChange={(viewport) => { setViewport(viewport) }}
+            >
+                Hello
             </ReactMapGL>
         </div>
     )
