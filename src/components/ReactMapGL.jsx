@@ -1,7 +1,8 @@
 import react, { useEffect, useState, useRef } from "react";
+import Geocoder from 'react-map-gl-geocoder'
 import { v4 as uuidv4 } from "uuid"
-import axios from 'axios';
-import MapGL, { Marker, Popup } from "react-map-gl";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css"
+import MapGL, { Marker, Popup, GeolocateControl } from "react-map-gl";
 // import MarkerIcon from "./Marker-Icon.svg"
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -47,6 +48,15 @@ function ReactMapGL({ compostLocation, setCompostLocation, mapData, viewport, se
                         </Marker>
                     )
                 })}
+
+                <Geocoder position="top-left" mapRef={mapRef} mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} />
+                <GeolocateControl
+                    style={{ right: 10, top: 10, zoom: 1 }}
+                    positionOptions={{ enableHighAccuracy: true }}
+                    trackUserLocation={true}
+                    fitBoundsOptions={{ maxZoom: 12 }}
+                    showAccuracyCircle={true}
+                />
                 {compostLocation && (
                     <Popup
                         latitude={compostLocation.point.coordinates[1]}
