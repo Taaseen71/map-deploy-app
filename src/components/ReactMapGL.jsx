@@ -8,27 +8,16 @@ import MapGL, { Marker, Popup } from "react-map-gl";
 MapGL.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 
-function ReactMapGL() {
+function ReactMapGL({ compostLocation, setCompostLocation, mapData, viewport, setViewport }) {
 
     useEffect(() => {
-        fetchData()
-        console.log(mapData)
+        const listener = e => {
+            if (e.key === "Escape") {
+                setCompostLocation(null)
+            }
+        }
+        window.addEventListener("keydown", listener)
     }, [])
-
-    const fetchData = async () => {
-        const data = await axios('https://data.cityofnewyork.us/resource/if26-z6xq.json');
-        setMapData(data.data);
-    }
-    const [mapData, setMapData] = useState([{}])
-    const [viewport, setViewport] = useState({
-        latitude: 40.7128,
-        longitude: -74.0060,
-        zoom: 9,
-        width: "95vw",
-        height: "45vh"
-    })
-
-    const [compostLocation, setCompostLocation] = useState(null)
 
     const mapRef = useRef()
 
@@ -41,31 +30,44 @@ function ReactMapGL() {
                 onViewportChange={(viewport) => { setViewport(viewport) }}
                 mapStyle="mapbox://styles/taaseen71/ckleb8llf0zv817lk5y1asq7s"
             >
-                {/* {mapData.map(compostSite => (
-                    <Marker
-                        key={uuidv4()}
-                        latitude={compostSite.point.coordinates[1]}
-                        longitude={compostSite.point.coordinates[0]}
-                    >
-                        <button
-                            className="marker-btn"
-                            onClick={e => {
-                                e.preventDefault();
-                                setCompostLocation(compostSite);
-                            }}
+                {mapData.map(location => {
+                    return (
+                        <Marker
+                            key={uuidv4()}
+                            latitude={location.point.coordinates[1]}
+                            longitude={location.point.coordinates[0]}
                         >
-                            <img src="/Marker-Icon.svg" alt="Marker Icon" />
-                        </button>
-                    </Marker>
-                ))
-                } */}
-
+                            <button className="marker-btn"
+                                onClick={e => {
+                                    e.preventDefault();
+                                    setCompostLocation(location);
+                                }}>
+                                <img src="/Marker-Icon.svg" alt="Location" />
+                            </button>
+                        </Marker>
+                    )
+                })}
                 {compostLocation && (
-                    <Popup latitude={compostLocation.point.coordinates[1]} longitude={compostLocation.point.coordinates[0]}>
+                    <Popup
+                        latitude={compostLocation.point.coordinates[1]}
+                        longitude={compostLocation.point.coordinates[0]}
+                        // onClose={() => { setCompostLocation(null) }}
+                        closeButton={false}
+                    >
                         <div>
-                            <p>{compostLocation.location}</p>
-                            <p>{compostLocation.food_scrap_drop_off_site}</p>
-                            <p>{compostLocation.borough}</p>
+                            <h3>{compostLocation.food_scrap_drop_off_site}</h3>
+                            <p><span>Borough: </span>{compostLocation.borough}</p>
+                            <p><span>Hours From: </span>{compostLocation.hours_from}</p>
+                            <p><span>Hours To: </span>{compostLocation.hours_to}</p>
+                            <p><span>Latitude: </span>{compostLocation.latitude}</p>
+                            <p><span>Longitude: </span>{compostLocation.longitude}</p>
+                            <p><span>Location: </span>{compostLocation.location}</p>
+                            <p><span>Operation: </span>{compostLocation.operation_day}</p>
+                            <p><span>Open Months: </span>{compostLocation.open_months}</p>
+                            <p><span>Zip Code: </span>{compostLocation.zip_code}</p>
+                            {compostLocation.website && (
+                                <p><span>Website: </span><a href={compostLocation.website}>{compostLocation.website}</a></p>
+                            )}
                         </div>
                     </Popup>
                 )}

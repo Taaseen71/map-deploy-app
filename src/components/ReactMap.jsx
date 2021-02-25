@@ -33,7 +33,7 @@ function ReactMap() {
     })
     const [map, setMap] = useState(null)
     const mapContainer = useRef(null);
-    console.log(mapContainer)
+    // console.log(mapContainer)
 
     useEffect(() => {
         mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
