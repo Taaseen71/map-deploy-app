@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
+import { PositionOptions } from 'mapbox-gl';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
@@ -24,11 +25,11 @@ mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
 function ReactMap() {
 
     const [viewport, setViewport] = useState({
-        latitude: 45.4211,
-        longitude: -75.6903,
+        latitude: 40.7128,
+        longitude: -74.0060,
         zoom: 9,
         width: "95vw",
-        height: "50vh"
+        height: "45vh"
     })
     const [map, setMap] = useState(null)
     const mapContainer = useRef(null);
@@ -48,6 +49,14 @@ function ReactMap() {
                 setMap(map);
                 map.resize();
             })
+
+            // const popUp = new mapboxgl.Popup({ closeOnClick: false })
+            //     .setLngLat([-75.6903, 45.4211])
+            //     .setHTML('<h1>Hello World</h1>')
+            //     .addTo(map)
+
+            const marker = new mapboxgl.Marker().setLngLat([-75.6903, 45.4211]).setPopup(new mapboxgl.Popup().setHTML("<h1>Hello</h1>")).addTo(map)
+
         }
 
         if (!map) initializeMap({ setMap, mapContainer });
@@ -56,7 +65,9 @@ function ReactMap() {
 
     return (
         <div style={{ display: "flex", justifyContent: "center" }}>
-            <div ref={el => mapContainer.current = el} style={{ width: viewport.width, height: viewport.height }} />
+            <div ref={el => mapContainer.current = el} style={{ width: viewport.width, height: viewport.height }} >
+                {/* <Marker latitude={viewport.latitude} longitude={viewport.longitude} /> */}
+            </div>
         </div>
     )
 }
@@ -67,13 +78,3 @@ export default ReactMap;
 
 
 
-
-// import ReactMapGL, { Marker } from "react-map-gl";
-{/* <ReactMapGL
-                {...viewport}
-                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                onViewportChange={(viewport) => { setViewport(viewport) }}
-                mapStyle="mapbox://styles/taaseen71/ckleb8llf0zv817lk5y1asq7s"
-            >
-                {importJsonhere}
-            </ReactMapGL> */}
