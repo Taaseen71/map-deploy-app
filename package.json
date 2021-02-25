@@ -13,6 +13,7 @@
         "react-map-gl": "^6.1.9",
         "react-mapbox-gl": "^5.1.1",
         "react-scripts": "4.0.3",
+        "uuid": "^8.3.2",
         "web-vitals": "^1.0.1",
         "worker-loader": "^3.0.8"
     },
